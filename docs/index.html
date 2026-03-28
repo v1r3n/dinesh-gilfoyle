@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>/dg — Dinesh vs Gilfoyle Code Review</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent-gilfoyle: #f85149;
+            --accent-dinesh: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .hero-command {
+            font-family: var(--font-mono);
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .hero-command .slash {
+            color: var(--text-muted);
+        }
+
+        .hero-command .d {
+            color: var(--accent-dinesh);
+        }
+
+        .hero-command .g {
+            color: var(--accent-gilfoyle);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .hero-tagline {
+            font-size: 1.1rem;
+            color: var(--text);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .badge-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        /* Install */
+        .install-section {
+            padding: 40px 0;
+        }
+
+        .install-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .install-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .install-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .install-dot.red { background: #ff5f57; }
+        .install-dot.yellow { background: #febc2e; }
+        .install-dot.green { background: #28c840; }
+
+        .install-code {
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .install-code .comment {
+            color: var(--text-muted);
+        }
+
+        .install-code .command {
+            color: var(--accent-green);
+        }
+
+        /* Debate */
+        .debate-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .debate-thread {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .debate-msg {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px 24px;
+            position: relative;
+        }
+
+        .debate-msg.gilfoyle {
+            border-left: 3px solid var(--accent-gilfoyle);
+        }
+
+        .debate-msg.dinesh {
+            border-left: 3px solid var(--accent-dinesh);
+        }
+
+        .debate-msg.system {
+            border-left: 3px solid var(--accent-yellow);
+            text-align: center;
+            font-style: italic;
+            color: var(--text-muted);
+        }
+
+        .debate-name {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .debate-name.gilfoyle { color: var(--accent-gilfoyle); }
+        .debate-name.dinesh { color: var(--accent-dinesh); }
+
+        .debate-text {
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        /* How it works */
+        .how-section {
+            padding: 60px 0;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .flow-num {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--text-muted);
+        }
+
+        .flow-content h3 {
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .flow-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .flow-connector {
+            width: 2px;
+            height: 16px;
+            background: var(--border);
+            margin-left: 15px;
+        }
+
+        /* Usage */
+        .usage-section {
+            padding: 60px 0;
+        }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .usage-grid { grid-template-columns: 1fr; }
+            .hero-command { font-size: 3rem; }
+        }
+
+        .usage-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+
+        .usage-cmd {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--accent-green);
+            margin-bottom: 6px;
+        }
+
+        .usage-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Why */
+        .why-section {
+            padding: 60px 0;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .why-grid { grid-template-columns: 1fr; }
+        }
+
+        .why-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .why-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .why-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent-dinesh);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-command">
+            <span class="slash">/</span><span class="d">d</span><span class="g">g</span>
+        </div>
+        <p class="hero-subtitle">Dinesh vs Gilfoyle Code Review</p>
+        <p class="hero-tagline">
+            An adversarial code review skill for Claude Code.<br>
+            Two AI agents debate your code — one attacks, one defends.<br>
+            The banter entertains. The findings are real.
+        </p>
+        <div class="badge-row">
+            <span class="badge">Claude Code Skill</span>
+            <span class="badge">Adversarial Review</span>
+            <span class="badge">HBO's Silicon Valley</span>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<!-- Install -->
+<section class="install-section">
+    <div class="container">
+        <div class="install-box">
+            <div class="install-header">
+                <div class="install-dot red"></div>
+                <div class="install-dot yellow"></div>
+                <div class="install-dot green"></div>
+            </div>
+            <div class="install-code">
+                <div class="comment"># Clone and install</div>
+                <div class="command">git clone https://github.com/v1r3n/dinesh-gilfoyle.git</div>
+                <div class="command">ln -s "$(pwd)/dinesh-gilfoyle/dg" ~/.claude/skills/dg</div>
+                <br>
+                <div class="comment"># Use it in any Claude Code session</div>
+                <div class="command">/dg</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<!-- Debate Example -->
+<section class="debate-section">
+    <div class="container">
+        <h2 class="section-title">The Debate In Action</h2>
+        <div class="debate-thread">
+            <div class="debate-msg system">
+                Round 1 — reviewing src/auth.ts
+            </div>
+            <div class="debate-msg gilfoyle">
+                <div class="debate-name gilfoyle">Gilfoyle</div>
+                <div class="debate-text">
+                    Line 47. A raw SQL query with string concatenation. I genuinely can't tell if you're lazy or if you've never heard of parameterized queries. Both options are disturbing.
+                    <br><br>
+                    And you've implemented your own JWT verification. A solved problem with battle-tested libraries. But no, Dinesh had to reinvent cryptography. What could go wrong.
+                </div>
+            </div>
+            <div class="debate-msg dinesh">
+                <div class="debate-name dinesh">Dinesh</div>
+                <div class="debate-text">
+                    OK first of all, that's not a "security vulnerability." That endpoint is behind three layers of auth middleware, which you'd KNOW if you'd looked at the router config instead of just grep-ing for "sql."
+                    <br><br>
+                    And the JWT thing is a thin wrapper around jose with custom claims validation for our OAuth provider's non-standard token format. It's not "reinventing cryptography." Read past line 12.
+                </div>
+            </div>
+            <div class="debate-msg gilfoyle">
+                <div class="debate-name gilfoyle">Gilfoyle</div>
+                <div class="debate-text">
+                    The auth middleware defense is fair. I'll give you that one. Reluctantly.
+                    <br><br>
+                    But I did read past line 12. That's where I found the JWT secret loaded from env with no startup validation. If that env var is missing, your server starts with an undefined secret. That's not a thin wrapper. That's a thin prayer.
+                </div>
+            </div>
+            <div class="debate-msg dinesh">
+                <div class="debate-name dinesh">Dinesh</div>
+                <div class="debate-text">
+                    Fine. FINE. The startup check. You're right about the startup check. But that doesn't invalidate the entire approach, Gilfoyle.
+                </div>
+            </div>
+            <div class="debate-msg system">
+                Convergence detected. Synthesizing final review.
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<!-- How It Works -->
+<section class="how-section">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="flow-steps">
+            <div class="flow-step">
+                <div class="flow-num">1</div>
+                <div class="flow-content">
+                    <h3>You invoke /dg</h3>
+                    <p>On a git diff, a file, or an entire directory. The orchestrator gathers the code.</p>
+                </div>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-step">
+                <div class="flow-num">2</div>
+                <div class="flow-content">
+                    <h3>Gilfoyle attacks</h3>
+                    <p>An independent AI agent with Gilfoyle's persona reviews your code. Finds bugs, vulnerabilities, architectural flaws. Delivers them with devastating sarcasm.</p>
+                </div>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-step">
+                <div class="flow-num">3</div>
+                <div class="flow-content">
+                    <h3>Dinesh defends</h3>
+                    <p>A second independent agent defends the code. Concedes real issues, pushes back on unfair criticism, dismisses nitpicks.</p>
+                </div>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-step">
+                <div class="flow-num">4</div>
+                <div class="flow-content">
+                    <h3>They debate</h3>
+                    <p>Back and forth until convergence — no new issues, full concession, or round cap hit. The adversarial tension surfaces issues a single reviewer would miss.</p>
+                </div>
+            </div>
+            <div class="flow-connector"></div>
+            <div class="flow-step">
+                <div class="flow-num">5</div>
+                <div class="flow-content">
+                    <h3>You get the verdict</h3>
+                    <p>A structured summary with banter highlights, issues categorized by debate outcome, and a clean checklist of what to fix.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<!-- Usage -->
+<section class="usage-section">
+    <div class="container">
+        <h2 class="section-title">Usage</h2>
+        <div class="usage-grid">
+            <div class="usage-card">
+                <div class="usage-cmd">/dg</div>
+                <div class="usage-desc">Review your git diff</div>
+            </div>
+            <div class="usage-card">
+                <div class="usage-cmd">/dg 3</div>
+                <div class="usage-desc">Git diff, max 3 rounds</div>
+            </div>
+            <div class="usage-card">
+                <div class="usage-cmd">/dg src/auth.ts</div>
+                <div class="usage-desc">Review a specific file</div>
+            </div>
+            <div class="usage-card">
+                <div class="usage-cmd">/dg src/ 3</div>
+                <div class="usage-desc">Review a directory, 3 rounds</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="separator">
+
+<!-- Why -->
+<section class="why-section">
+    <div class="container">
+        <h2 class="section-title">Why Adversarial Review Works</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>Concessions = Real Bugs</h3>
+                <p>When Dinesh can't defend a point under Gilfoyle's pressure, that's a confirmed issue — not a maybe.</p>
+            </div>
+            <div class="why-card">
+                <h3>Defenses = Validation</h3>
+                <p>Code that survives Gilfoyle's attack is battle-tested. A successful defense is stronger than "LGTM."</p>
+            </div>
+            <div class="why-card">
+                <h3>Banter = Engagement</h3>
+                <p>Code review shouldn't be a chore. The entertainment keeps you reading every finding instead of skimming.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>
+            Built for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> &middot;
+            <a href="https://github.com/v1r3n/dinesh-gilfoyle">GitHub</a> &middot;
+            Inspired by HBO's Silicon Valley
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
