@@ -348,14 +348,16 @@
         </div>
         <p class="hero-subtitle">Dinesh vs Gilfoyle Code Review</p>
         <p class="hero-tagline">
-            An adversarial code review skill for Claude Code.<br>
+            An adversarial code review skill for your coding agent.<br>
             Two AI agents debate your code — one attacks, one defends.<br>
             The banter entertains. The findings are real.
         </p>
         <div class="badge-row">
-            <span class="badge">Claude Code Skill</span>
-            <span class="badge">Adversarial Review</span>
-            <span class="badge">HBO's Silicon Valley</span>
+            <span class="badge">Claude Code</span>
+            <span class="badge">Codex CLI</span>
+            <span class="badge">OpenCode</span>
+            <span class="badge">Cursor</span>
+            <span class="badge">Windsurf</span>
         </div>
     </div>
 </section>
@@ -372,11 +374,10 @@
                 <div class="install-dot green"></div>
             </div>
             <div class="install-code">
-                <div class="comment"># Clone and install</div>
-                <div class="command">git clone https://github.com/v1r3n/dinesh-gilfoyle.git</div>
-                <div class="command">ln -s "$(pwd)/dinesh-gilfoyle/dg" ~/.claude/skills/dg</div>
+                <div class="comment"># One command. Auto-detects your agents.</div>
+                <div class="command">curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/install.sh | bash</div>
                 <br>
-                <div class="comment"># Use it in any Claude Code session</div>
+                <div class="comment"># Then in any session:</div>
                 <div class="command">/dg</div>
             </div>
         </div>
@@ -530,11 +531,32 @@
     </div>
 </section>
 
+<!-- Agents -->
+<section class="why-section">
+    <div class="container">
+        <h2 class="section-title">Works With Your Agent</h2>
+        <div class="why-grid">
+            <div class="why-card">
+                <h3>Full Debate</h3>
+                <p>Claude Code, Codex CLI, and OpenCode get the full two-agent experience — independent Gilfoyle and Dinesh subagents arguing in real time.</p>
+            </div>
+            <div class="why-card">
+                <h3>Structured Review</h3>
+                <p>Cursor and Windsurf get a single-agent adaptation that alternates personas within one session. Same banter, same findings.</p>
+            </div>
+            <div class="why-card">
+                <h3>One Installer</h3>
+                <p>The install script auto-detects every agent on your machine and sets up the right files in the right places. One command, done.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Footer -->
 <footer>
     <div class="container">
         <p>
-            Built for <a href="https://docs.anthropic.com/en/docs/claude-code">Claude Code</a> &middot;
+            Works with Claude Code, Codex CLI, OpenCode, Cursor &amp; Windsurf &middot;
             <a href="https://github.com/v1r3n/dinesh-gilfoyle">GitHub</a> &middot;
             Inspired by HBO's Silicon Valley
         </p>

@@ -1,8 +1,10 @@
 # /dg — Dinesh vs Gilfoyle Code Review
 
-An adversarial code review skill for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) inspired by HBO's Silicon Valley.
+An adversarial code review skill inspired by HBO's Silicon Valley.
 
 Two AI agents — **Gilfoyle** (attacker) and **Dinesh** (defender) — debate your code in character. The banter is entertaining. The findings are real.
+
+Works with **Claude Code**, **Codex CLI**, **OpenCode**, **Cursor**, and **Windsurf**.
 
 ## How It Works
 
@@ -35,23 +37,89 @@ You get an actionable summary + a checklist of what to fix
 
 ## Installation
 
-### Prerequisites
-
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI installed and configured
-
-### Install
+### One-liner (auto-detects your agents)
 
 ```bash
-# Clone the repo
-git clone https://github.com/v1r3n/dinesh-gilfoyle.git
-
-# Symlink into your Claude Code skills directory
-ln -s "$(pwd)/dinesh-gilfoyle/dg" ~/.claude/skills/dg
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/install.sh | bash
 ```
 
-### Verify
+The installer detects which coding agents you have and installs for each one automatically.
 
-Start a new Claude Code session and type `/dg`. If it loads the skill, you're good.
+### Manual Install
+
+<details>
+<summary><b>Claude Code</b></summary>
+
+```bash
+mkdir -p ~/.claude/skills/dg
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/SKILL.md -o ~/.claude/skills/dg/SKILL.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/gilfoyle-agent.md -o ~/.claude/skills/dg/gilfoyle-agent.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/dinesh-agent.md -o ~/.claude/skills/dg/dinesh-agent.md
+```
+
+Invoke with `/dg` in any session.
+</details>
+
+<details>
+<summary><b>Codex CLI</b></summary>
+
+```bash
+mkdir -p ~/.codex/skills/dg
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/SKILL.md -o ~/.codex/skills/dg/SKILL.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/gilfoyle-agent.md -o ~/.codex/skills/dg/gilfoyle-agent.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/dinesh-agent.md -o ~/.codex/skills/dg/dinesh-agent.md
+```
+
+Invoke with `$dg` in any session.
+</details>
+
+<details>
+<summary><b>OpenCode</b></summary>
+
+```bash
+mkdir -p ~/.config/opencode/skills/dg
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/SKILL.md -o ~/.config/opencode/skills/dg/SKILL.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/gilfoyle-agent.md -o ~/.config/opencode/skills/dg/gilfoyle-agent.md
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/dinesh-agent.md -o ~/.config/opencode/skills/dg/dinesh-agent.md
+```
+
+Invoke with `/dg` in any session.
+</details>
+
+<details>
+<summary><b>Cursor</b></summary>
+
+```bash
+# Copy to your project (Cursor rules are project-level)
+mkdir -p .cursor/rules
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/cursor/dg.mdc -o .cursor/rules/dg.mdc
+```
+
+Invoke with `@dg` in chat, or it triggers when you ask for a code review.
+</details>
+
+<details>
+<summary><b>Windsurf</b></summary>
+
+```bash
+mkdir -p ~/.codeium/windsurf/rules
+curl -sL https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/windsurf/dg.md -o ~/.codeium/windsurf/rules/dg.md
+```
+
+Ask for a `/dg` or "dinesh gilfoyle review" in Cascade.
+</details>
+
+### Agent Compatibility
+
+| Agent | Experience | Install Scope | Invoke |
+|-------|-----------|---------------|--------|
+| **Claude Code** | Full two-agent debate | Global | `/dg` |
+| **Codex CLI** | Full two-agent debate | Global | `$dg` |
+| **OpenCode** | Full two-agent debate | Global | `/dg` |
+| **Cursor** | Structured single-agent review | Per-project | `@dg` |
+| **Windsurf** | Structured single-agent review | Global | ask in chat |
+
+Agents with subagent support (Claude Code, Codex, OpenCode) get the full experience — two independent agents arguing. Cursor and Windsurf get a single-agent adaptation that alternates personas within one session.
 
 ## Usage
 
@@ -62,11 +130,9 @@ Start a new Claude Code session and type `/dg`. If it loads the skill, you're go
 /dg src/auth.ts 3       # Specific file, max 3 rounds
 ```
 
-### Default Behavior
-
-- Rounds: **adaptive** — agents debate until convergence or cap is hit
+- Rounds: **adaptive** — debate continues until convergence or cap
 - Default cap: **5 rounds**
-- At cap: you're asked whether to continue or wrap up
+- At cap: you choose whether to continue or wrap up
 
 ## Sample Output
 
@@ -113,17 +179,20 @@ Gilfoyle: 2 | Dinesh: 1
 ## Architecture
 
 ```
-dg/
-  SKILL.md              # Orchestrator — runs the debate loop
-  gilfoyle-agent.md     # Gilfoyle's system prompt (attacker)
-  dinesh-agent.md       # Dinesh's system prompt (defender)
+dg/                        # Shared SKILL.md format (Claude Code, Codex, OpenCode)
+  SKILL.md                 # Orchestrator — debate loop + synthesis
+  gilfoyle-agent.md        # Gilfoyle subagent prompt (attacker)
+  dinesh-agent.md          # Dinesh subagent prompt (defender)
+cursor/
+  dg.mdc                   # Cursor rules adaptation (single-agent)
+windsurf/
+  dg.md                    # Windsurf rules adaptation (single-agent)
+install.sh                 # Universal installer
 ```
-
-The orchestrator dispatches two independent subagents in a sequential loop. Gilfoyle attacks first, Dinesh responds. Each round, the orchestrator checks for convergence — if no new issues are raised or all points are conceded, the debate ends. A structured summary is produced at the end.
 
 ## Contributing
 
-PRs welcome. If you have ideas for improving the personas, the debate flow, or the output format, open an issue or submit a PR.
+PRs welcome. Ideas for improving the personas, debate flow, output format, or adding support for more agents — open an issue or submit a PR.
 
 ## License
 
