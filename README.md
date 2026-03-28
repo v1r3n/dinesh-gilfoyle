@@ -43,6 +43,24 @@ Start a new session and type `/dg`. If Gilfoyle insults your code, you're good.
 4. **Verdict** — A structured summary categorizes every issue by who won the argument, plus a clean checklist of what to actually fix.
 5. **Comic strip** — Optionally generates an HTML comic strip of the best moments, with SVG character avatars and speech bubbles. Can be attached directly to a PR.
 
+## What It Checks
+
+This isn't a surface-level linter. Both agents review across seven deep technical domains:
+
+**Security** — Hardcoded credentials, PII exposure, injection attacks (SQL, command, template), buffer overflows, auth/authz gaps, OWASP Top 10. Gilfoyle also runs a dependency vulnerability scan using native audit tools (`npm audit`, `pip audit`, `govulncheck`, `cargo audit`, etc.) with fallback to the [OSV.dev](https://osv.dev) API and NVD for CVE details.
+
+**Database** — Missing indexes, N+1 query patterns, connection pooling issues, missing transactions, schema problems, queries that work at 1K rows but die at 1M.
+
+**Distributed Systems** — Missing retry logic and backoff, no idempotency, no circuit breakers, race conditions, missing timeouts on network calls, ignored partial failures, missing dead letter queues.
+
+**Performance & KISS** — Premature optimization, missing obvious optimization, over-engineered abstractions, KISS violations, memory leaks, blocking calls in async contexts.
+
+**Logging & Observability** — PII in logs, missing logging in critical paths, excessive debug logging in production, no structured logging, missing correlation IDs, swallowed exceptions.
+
+**Language-Specific Best Practices** — Detects the language and applies its idioms. Java should look like Java, Go should handle errors, Python should be Pythonic. Catches ecosystem-specific anti-patterns.
+
+**Design Patterns** — Spots useful patterns correctly applied. Calls out pattern fluff ruthlessly — AbstractSingletonProxyFactoryBean is not engineering, it's a cry for help.
+
 ## Agent Compatibility
 
 | Agent | Experience | Invoke |
