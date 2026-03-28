@@ -37,10 +37,11 @@ Start a new session and type `/dg`. If Gilfoyle insults your code, you're good.
 
 ## The Debate
 
-1. **Gilfoyle attacks** — Reviews the code with devastating technical precision. Finds security issues, bugs, architectural flaws. Delivers findings in character.
+1. **Gilfoyle attacks** — Reviews the code with devastating technical precision. Finds security issues, bugs, architectural flaws. Scans dependencies for known CVEs. Delivers findings in character.
 2. **Dinesh defends** — Responds to each critique. Concedes real issues (grudgingly), pushes back on unfair criticism, dismisses nitpicks.
 3. **Repeat** — They go back and forth until no new issues are raised, Dinesh concedes everything, or the round cap is hit.
 4. **Verdict** — A structured summary categorizes every issue by who won the argument, plus a clean checklist of what to actually fix.
+5. **Comic strip** — Optionally generates an HTML comic strip of the best moments, with SVG character avatars and speech bubbles. Can be attached directly to a PR.
 
 ## Agent Compatibility
 
@@ -61,6 +62,8 @@ Agents with subagent support (Claude Code, Codex, OpenCode) get the full experie
 **Gilfoyle agent** — `dg/gilfoyle-agent.md` — Deadpan, dry, supremely confident. Finds real issues and scales his contempt to the severity. Never uses exclamation marks.
 
 **Dinesh agent** — `dg/dinesh-agent.md` — Defensive, flustered, but genuinely competent. Concedes when wrong, fights hard when right. Occasionally lands a zinger.
+
+**Comic template** — `dg/comic-template.html` — Self-contained HTML comic strip with inline SVG character avatars, speech bubbles, score card, and verdict. Generates a shareable artifact you can attach to PRs.
 
 **Cursor rules** — `cursor/dg.mdc` — Single-agent adaptation for Cursor's .mdc rules format.
 

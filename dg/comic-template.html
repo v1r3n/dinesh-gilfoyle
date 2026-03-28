@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dinesh vs Gilfoyle — {{REVIEW_TARGET}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1a1a2e;
+    color: #eee;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .comic-page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Title Banner */
+  .title-banner {
+    background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+    border: 4px solid #000;
+    border-radius: 12px;
+    padding: 24px 32px;
+    text-align: center;
+    margin-bottom: 24px;
+    box-shadow: 6px 6px 0 #000;
+  }
+
+  .title-banner h1 {
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 #000;
+    color: #fff;
+  }
+
+  .title-banner .subtitle {
+    font-size: 1.1rem;
+    color: #ddd;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* Panel Grid */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .panels { grid-template-columns: 1fr; }
+    .title-banner h1 { font-size: 2rem; }
+  }
+
+  .panel {
+    border: 3px solid #000;
+    border-radius: 8px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 4px 4px 0 #000;
+    position: relative;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .panel.full-width {
+    grid-column: 1 / -1;
+  }
+
+  /* Character Headers */
+  .panel-header {
+    padding: 8px 14px;
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-header .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #000;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #111;
+  }
+
+  .panel-header .avatar svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Gilfoyle styling */
+  .gilfoyle .panel-header {
+    background: linear-gradient(90deg, #16213e, #1a1a2e);
+    color: #e94560;
+    border-bottom: 2px solid #000;
+  }
+  .gilfoyle .panel-header .avatar { border-color: #e94560; }
+  .gilfoyle .panel-body {
+    background: linear-gradient(180deg, #16213e, #0f0f23);
+  }
+
+  /* Dinesh styling */
+  .dinesh .panel-header {
+    background: linear-gradient(90deg, #0f3460, #16213e);
+    color: #00d2ff;
+    border-bottom: 2px solid #000;
+  }
+  .dinesh .panel-header .avatar { border-color: #00d2ff; }
+  .dinesh .panel-body {
+    background: linear-gradient(180deg, #0f3460, #0a1628);
+  }
+
+  /* Speech Bubble */
+  .panel-body {
+    padding: 16px 18px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .speech {
+    background: #fff;
+    color: #111;
+    border-radius: 16px;
+    padding: 14px 18px;
+    position: relative;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    width: 100%;
+  }
+
+  .speech::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+  }
+
+  .speech em { color: #666; font-style: italic; }
+
+  .speech code {
+    background: #f0f0f0;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    color: #e94560;
+  }
+
+  /* Score Card */
+  .score-card {
+    background: linear-gradient(135deg, #16213e, #0f3460);
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 4px 4px 0 #000;
+    margin-bottom: 24px;
+  }
+
+  .score-card h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+
+  .score-row {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .score-player { text-align: center; }
+
+  .score-player .name {
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+  }
+
+  .score-player .points {
+    font-size: 3rem;
+    font-weight: 700;
+    font-family: 'Bangers', cursive;
+  }
+
+  .gilfoyle-score .name, .gilfoyle-score .points { color: #e94560; }
+  .dinesh-score .name, .dinesh-score .points { color: #00d2ff; }
+  .score-vs { font-family: 'Bangers', cursive; font-size: 2rem; color: #666; }
+
+  /* Verdict Section */
+  .verdict {
+    background: #16213e;
+    border: 3px solid #000;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 4px 4px 0 #000;
+    margin-bottom: 24px;
+  }
+
+  .verdict h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px;
+    color: #e94560;
+    margin-bottom: 12px;
+  }
+
+  .verdict-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #1a1a2e;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .verdict-item:last-child { border-bottom: none; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tag-fixed { background: #2ecc71; color: #000; }
+  .tag-contested { background: #f39c12; color: #000; }
+  .tag-dismissed { background: #95a5a6; color: #000; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 16px;
+    color: #555;
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+  .footer a { color: #e94560; text-decoration: none; }
+
+  /* Panel number badges */
+  .panel-number {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: #000;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bangers', cursive;
+    font-size: 0.85rem;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<!-- Reusable SVG character avatars -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!-- Gilfoyle: angular face, dark straight hair, beard, deadpan narrow eyes -->
+  <symbol id="gilfoyle-avatar" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#16213e"/>
+    <ellipse cx="50" cy="32" rx="32" ry="26" fill="#1a1a1a"/>
+    <ellipse cx="50" cy="48" rx="26" ry="28" fill="#c4956a"/>
+    <path d="M24 36Q24 18 50 16Q76 18 76 36L76 30Q76 12 50 10Q24 12 24 30Z" fill="#1a1a1a"/>
+    <rect x="22" y="28" width="10" height="16" rx="2" fill="#1a1a1a"/>
+    <rect x="68" y="28" width="10" height="16" rx="2" fill="#1a1a1a"/>
+    <ellipse cx="40" cy="44" rx="5" ry="2.5" fill="white"/>
+    <ellipse cx="60" cy="44" rx="5" ry="2.5" fill="white"/>
+    <circle cx="40" cy="44" r="2" fill="#1a1a1a"/>
+    <circle cx="60" cy="44" r="2" fill="#1a1a1a"/>
+    <line x1="34" y1="38" x2="46" y2="38.5" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="54" y1="38.5" x2="66" y2="38" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M48 48L50 53L52 48" fill="none" stroke="#a67c52" stroke-width="1.5"/>
+    <path d="M30 56Q30 52 34 50L40 56L50 60L60 56L66 50Q70 52 70 56Q70 76 50 78Q30 76 30 56Z" fill="#2a2a2a"/>
+    <line x1="42" y1="60" x2="58" y2="60" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M24 76Q24 72 30 70L50 74L70 70Q76 72 76 76L76 100L24 100Z" fill="#111"/>
+    <circle cx="50" cy="80" r="3" fill="none" stroke="#e94560" stroke-width="0.8"/>
+    <polygon points="50,77 50.9,79.5 53.5,79.5 51.3,81 52.1,83.5 50,82 47.9,83.5 48.7,81 46.5,79.5 49.1,79.5" fill="#e94560" transform="scale(0.5) translate(50, 156)"/>
+  </symbol>
+
+  <!-- Dinesh: rounder face, short neat hair, wider worried eyes, slight stubble -->
+  <symbol id="dinesh-avatar" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#0f3460"/>
+    <ellipse cx="50" cy="30" rx="30" ry="22" fill="#111"/>
+    <ellipse cx="50" cy="48" rx="26" ry="27" fill="#b8845c"/>
+    <path d="M26 38Q26 20 50 18Q74 20 74 38L74 32Q74 16 50 14Q26 16 26 32Z" fill="#111"/>
+    <ellipse cx="40" cy="44" rx="5.5" ry="4.5" fill="white"/>
+    <ellipse cx="60" cy="44" rx="5.5" ry="4.5" fill="white"/>
+    <circle cx="41" cy="45" r="3" fill="#2a1a0a"/>
+    <circle cx="61" cy="45" r="3" fill="#2a1a0a"/>
+    <circle cx="42" cy="44" r="1" fill="white"/>
+    <circle cx="62" cy="44" r="1" fill="white"/>
+    <path d="M34 36Q40 33.5 46 36" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+    <path d="M54 36Q60 33.5 66 36" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+    <path d="M48 48L50 54L52 48" fill="none" stroke="#9a7050" stroke-width="1.5"/>
+    <path d="M42 62Q50 58 58 62" fill="none" stroke="#5a3a2a" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="36" cy="62" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <circle cx="42" cy="65" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <circle cx="48" cy="66" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <circle cx="52" cy="66" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <circle cx="58" cy="65" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <circle cx="64" cy="62" r="0.7" fill="#8a6a4a" opacity="0.4"/>
+    <path d="M24 76Q24 72 32 70L50 74L68 70Q76 72 76 76L76 100L24 100Z" fill="#1a3a5a"/>
+    <path d="M42 74L50 78L58 74" fill="none" stroke="#143050" stroke-width="1.5"/>
+  </symbol>
+</svg>
+
+<div class="comic-page">
+
+  <div class="title-banner">
+    <h1>{{REVIEW_TARGET}}</h1>
+    <div class="subtitle">DINESH vs GILFOYLE &mdash; {{ROUND_COUNT}} rounds of mass destruction</div>
+  </div>
+
+  <div class="panels">
+    {{PANELS}}
+  </div>
+
+  <div class="score-card">
+    <h2>Final Score</h2>
+    <div class="score-row">
+      <div class="score-player gilfoyle-score">
+        <div class="name">Gilfoyle</div>
+        <div class="points">{{GILFOYLE_SCORE}}</div>
+      </div>
+      <div class="score-vs">VS</div>
+      <div class="score-player dinesh-score">
+        <div class="name">Dinesh</div>
+        <div class="points">{{DINESH_SCORE}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h2>The Verdict</h2>
+    {{VERDICT_ITEMS}}
+  </div>
+
+  <div class="footer">
+    Generated by <a href="https://github.com/v1r3n/dinesh-gilfoyle">/dg</a> &mdash; Dinesh vs Gilfoyle Code Review &mdash; {{DATE}}
+  </div>
+
+</div>
+</body>
+</html>
