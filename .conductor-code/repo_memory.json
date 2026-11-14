@@ -1,0 +1,39 @@
+{
+  "conventions": {},
+  "invariants": [],
+  "lessons": [
+    {
+      "confidence": "medium",
+      "invalidated": false,
+      "provenance": "",
+      "refs": [],
+      "text": "For /dg full integrations, SKILL.md and comic-template.html form one deployable unit because Step 4 resolves the template relative to the installed skill directory; acceptance must execute the installer with isolated HOME and assert byte equality.",
+      "ts": 1794696827.876498
+    },
+    {
+      "confidence": "medium",
+      "invalidated": false,
+      "provenance": "",
+      "refs": [],
+      "text": "The Codex guide edit is content-trivial but .codex is a separately read-only workspace path in this harness; apply_patch cannot write .codex/INSTALL.md despite normal Unix mode bits.",
+      "ts": 1794698235.95873
+    },
+    {
+      "confidence": "medium",
+      "invalidated": false,
+      "provenance": "",
+      "refs": [],
+      "text": "Round 5 still lacks effective write access to .codex/INSTALL.md: root is writable generally, but the more-specific .codex read-only permission causes apply_patch to reject the file as outside the project.",
+      "ts": 1794698595.870903
+    },
+    {
+      "confidence": "medium",
+      "invalidated": false,
+      "provenance": "",
+      "refs": [],
+      "text": "Round 7 still does not provide effective write access to .codex/INSTALL.md: apply_patch is rejected as outside the project because the more-specific .codex sandbox entry remains read-only, despite the workspace root being writable.",
+      "ts": 1794699151.1089401
+    }
+  ],
+  "moduleMap": {}
+}
