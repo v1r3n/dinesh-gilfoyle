@@ -1,0 +1,41 @@
+{
+  "module": "DgInstaller",
+  "config": "DgInstaller.cfg",
+  "state": ["installed", "result"],
+  "result": "result",
+  "adapter": "node .cc/conformance/adapter.mjs",
+  "mutants": [
+    {"invariant": "TypeOK", "next": "NextBreaksTypeOK"},
+    {"invariant": "CompleteOrEmpty", "next": "NextBreaksCompleteOrEmpty"},
+    {"invariant": "ComicWithSkill", "next": "NextBreaksComicWithSkill"}
+  ],
+  "mapping": {
+    "setup": {
+      "command": "Create a temporary HOME, place only the selected agent command stub on PATH, and serve a local source archive fixture to the unmodified public command bash docs/install.sh.",
+      "agents": {
+        "claude": "$HOME/.claude/skills/dg",
+        "codex": "$HOME/.codex/skills/dg",
+        "opencode": "$HOME/.config/opencode/skills/dg"
+      }
+    },
+    "actions": {
+      "Install(a)": {
+        "command": "Run bash docs/install.sh with only agent a detected in the isolated HOME/PATH.",
+        "arguments": {"a": "one of claude, codex, opencode"},
+        "result": {"exit 0 and detected-agent summary": "installed"}
+      },
+      "Inspect(a)": {
+        "command": "List regular files in the mapped target directory for agent a without modifying it.",
+        "arguments": {"a": "one of claude, codex, opencode"},
+        "result": {
+          "file-name set equals Assets and every file equals its dg/ source": "complete",
+          "otherwise": "incomplete"
+        }
+      }
+    },
+    "state": {
+      "installed": "For each agent, read the set of regular-file basenames in its mapped target; a nonexistent directory maps to the empty set.",
+      "result": "Read the normalized result emitted by the most recent Install or Inspect adapter action. Before any action it is idle."
+    }
+  }
+}

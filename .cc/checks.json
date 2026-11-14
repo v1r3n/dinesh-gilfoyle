@@ -1,0 +1,10 @@
+[
+ {
+  "id": "install-full-bundle",
+  "command": "node .cc/checks/install_full_bundle.mjs"
+ },
+ {
+  "id": "manual-install-contract",
+  "command": "node .cc/checks/manual_install_contract.mjs"
+ }
+]
