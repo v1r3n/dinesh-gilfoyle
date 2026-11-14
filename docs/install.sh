@@ -25,6 +25,7 @@ if command -v claude &>/dev/null || [ -d "$HOME/.claude" ]; then
     cp "$SRC/dg/SKILL.md" "$HOME/.claude/skills/dg/"
     cp "$SRC/dg/gilfoyle-agent.md" "$HOME/.claude/skills/dg/"
     cp "$SRC/dg/dinesh-agent.md" "$HOME/.claude/skills/dg/"
+    cp "$SRC/dg/comic-template.html" "$HOME/.claude/skills/dg/"
     INSTALLED+=("Claude Code    → ~/.claude/skills/dg/          invoke: /dg")
 fi
 
@@ -35,6 +36,7 @@ if command -v codex &>/dev/null || [ -d "$HOME/.codex" ]; then
     cp "$SRC/dg/SKILL.md" "$HOME/.codex/skills/dg/"
     cp "$SRC/dg/gilfoyle-agent.md" "$HOME/.codex/skills/dg/"
     cp "$SRC/dg/dinesh-agent.md" "$HOME/.codex/skills/dg/"
+    cp "$SRC/dg/comic-template.html" "$HOME/.codex/skills/dg/"
     INSTALLED+=("Codex CLI      → ~/.codex/skills/dg/           invoke: \$dg")
 fi
 
@@ -45,6 +47,7 @@ if command -v opencode &>/dev/null || [ -d "$HOME/.config/opencode" ]; then
     cp "$SRC/dg/SKILL.md" "$HOME/.config/opencode/skills/dg/"
     cp "$SRC/dg/gilfoyle-agent.md" "$HOME/.config/opencode/skills/dg/"
     cp "$SRC/dg/dinesh-agent.md" "$HOME/.config/opencode/skills/dg/"
+    cp "$SRC/dg/comic-template.html" "$HOME/.config/opencode/skills/dg/"
     INSTALLED+=("OpenCode       → ~/.config/opencode/skills/dg/ invoke: /dg")
 fi
 

@@ -1,6 +1,6 @@
 # Install /dg for Claude Code
 
-Download these three files to `~/.claude/skills/dg/`:
+Download this four-file bundle to `~/.claude/skills/dg/`:
 
 1. Create the directory: `mkdir -p ~/.claude/skills/dg`
 2. Download `https://raw.githubusercontent.com/v1r3n/dinesh-gilfoyle/main/dg/SKILL.md` to `~/.claude/skills/dg/SKILL.md`
