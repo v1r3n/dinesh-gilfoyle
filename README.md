@@ -26,6 +26,16 @@ That's it. The installer auto-detects which coding agents you have — Claude Co
 
 Start a new session and type `/dg`. If Gilfoyle insults your code, you're good.
 
+## Supported tools
+
+| Tool | Repository folder | Install |
+|---|---|---|
+| Claude Code | `dg/` | [Install](.claude/INSTALL.md) |
+| Codex | `dg/` | [Install](.codex/INSTALL.md) |
+| Cursor | `cursor/` | [Install](.cursor/INSTALL.md) |
+| OpenCode | `dg/` | [Install](.opencode/INSTALL.md) |
+| Windsurf | `windsurf/` | [Install](.windsurf/INSTALL.md) |
+
 ## Usage
 
 ```
